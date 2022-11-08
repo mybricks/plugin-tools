@@ -26,7 +26,6 @@ export default function Tools (props: ToolsProps) {
     const json = props.project.dump()
     if (copyText(JSON.stringify(json))) {
       alert('已导出到剪贴板')
-      console.log('已导出到剪贴板')
     }
   }
 
