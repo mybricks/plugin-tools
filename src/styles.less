@@ -1,0 +1,49 @@
+.toolsContainer {
+  width: 320px;
+}
+
+.toolsTitle {
+  height: 50px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+}
+
+.toolsContent {
+  padding: 12px 10px;
+}
+
+.toolsItem {
+  .toolsItemTitle {
+    &:before {
+      position: absolute;
+      content: "";
+      top: 3px;
+      left: 0;
+      border-left: 3px solid #FA6400;
+      height: 12px;
+    }
+
+    position: relative;
+    font-weight: 600;
+    font-size: 12px;
+    margin-bottom: 8px;
+    padding-left: 6px;
+  }
+}
+
+.toolsIBtn {
+  border: 1px solid #DDD;
+  border-radius: 3px;
+  padding: 3px 12px;
+  cursor: pointer;
+  background-color: #FFF;
+  font-size: 12px;
+
+  +.toolsIBtn {
+    margin-left: 4px;
+  }
+}
