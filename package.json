@@ -7,14 +7,15 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "webpack --config ./scripts/webpack.build.js && tsc --emitDeclarationOnly",
-    "publishToNpm": "npm run build && npm publish --registry=https://registry.npmjs.org --access=public"
+    "publishToNpm": "npm run build && npm publish --registry=https://registry.npmjs.org --access=public",
+    "publishToNpm:beta": "npm run build && npm publish --tag beta --registry=https://registry.npmjs.org --access=public"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:mybricks/plugin-tools.git"
   },
   "files": [
-    "runtime",
+    "lib",
     "Readme.md"
   ],
   "dependencies": {
