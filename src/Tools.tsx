@@ -15,8 +15,8 @@ export default function Tools (props: ToolsProps) {
     if (!importData) return;
     
     try {
-      const pageData  = JSON.parse(importData)
-      props.project.loadContent(pageData.content)
+      const pageData = JSON.parse(importData)
+      props.project.loadContent(pageData)
     } catch (err) {
       console.error(err);
     }
