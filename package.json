@@ -1,6 +1,6 @@
 {
   "name": "@mybricks/plugin-tools",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "mybricks",
   "license": "",
   "main": "lib/index.js",
@@ -18,8 +18,7 @@
     "lib",
     "Readme.md"
   ],
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.18.2",
     "@babel/plugin-proposal-class-properties": "^7.14.5",
