@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from 'classNames'
 import styles from './styles.less'
 
 interface ToolsProps {
@@ -44,9 +45,9 @@ export default function Tools (props: ToolsProps) {
         <div className={styles.toolsItem}>
           <div className={styles.toolsItemTitle}>页面协议</div>
           <div className={styles.toolsItemContent}>
-            <button className={styles.toolsIBtn} onClick={() => onImport()}>导入</button>
-            <button className={styles.toolsIBtn} onClick={() => onExport()}>导出到剪切板</button>
-            <button className={styles.toolsIBtn} onClick={() => onExportToFile()}>导出到文件</button>
+            <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onImport()}>导入</button>
+            <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExport()}>导出到剪切板</button>
+            <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExportToFile()}>导出到文件</button>
           </div>
         </div>
       </div>

@@ -18,7 +18,9 @@
     "lib",
     "Readme.md"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "classnames": "^2.3.2"
+  },
   "devDependencies": {
     "@babel/core": "^7.18.2",
     "@babel/plugin-proposal-class-properties": "^7.14.5",
