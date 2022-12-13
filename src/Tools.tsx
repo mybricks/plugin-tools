@@ -77,7 +77,7 @@ export default function Tools (props: ToolsProps) {
           <div className={styles.toolsItem}>
             <div className={styles.toolsItemTitle}>页面协议</div>
             <div className={styles.toolsItemContent}>
-              <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onImport()}>导入</button>
+              <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onImport()}>从剪切板中导入</button>
               <div>
                 <input
                   style={{ display: 'none' }}
@@ -86,7 +86,9 @@ export default function Tools (props: ToolsProps) {
                   accept="application/json"
                   onChange={handleFileChange}
                 />
-                <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onImportForFile()} >选择文件</button>
+                <button
+                  className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)}
+                  onClick={() => onImportForFile()}>从JSON文件中导入</button>
               </div>
               <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExport()}>导出到剪切板</button>
               <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExportToFile()}>导出到文件</button>

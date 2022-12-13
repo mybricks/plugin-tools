@@ -52,7 +52,7 @@ function ToastItem ({ id, text, onClose }: { id: string, text: string, onClose: 
       if (onClose) {
         onClose(id);
       }
-    }, 1000)
+    }, 2000)
 
     return () => {
       clearTimeout(timer.current)
