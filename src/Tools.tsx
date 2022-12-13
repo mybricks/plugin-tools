@@ -32,10 +32,14 @@ export default function Tools (props: ToolsProps) {
 
   const onExportToFile = () => {
     const json = props.project.dump()
-    let link = document.createElement('a')
-    link.download = `mybricks_${getDateTime()}.json`
-    link.href = 'data:text/plain,' + JSON.stringify(json)
-    link.click()
+    const eleLink = document.createElement('a')
+    eleLink.download = `mybricks_${getDateTime()}.json`
+    eleLink.style.display = 'none'
+    const blob = new Blob([JSON.stringify(json)])
+    eleLink.href = URL.createObjectURL(blob)
+    document.body.appendChild(eleLink)
+    eleLink.click()
+    document.body.removeChild(eleLink)
   }
 
   return (
