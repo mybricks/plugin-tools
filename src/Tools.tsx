@@ -1,6 +1,7 @@
 import React from "react";
 import classNames from 'classNames'
 import styles from './styles.less'
+import useToast from './components/Toast'
 
 interface ToolsProps {
   project: {
@@ -10,6 +11,8 @@ interface ToolsProps {
 }
 
 export default function Tools (props: ToolsProps) {
+  const [toast, contextHolder] = useToast()
+
   const onImport = () => {
     const importData = window.prompt('将导出的页面数据复制到输入框');
 
@@ -25,9 +28,8 @@ export default function Tools (props: ToolsProps) {
 
   const onExport = () => {
     const json = props.project.dump()
-    if (copyText(JSON.stringify(json))) {
-      alert('已导出到剪贴板')
-    }
+    copyText(JSON.stringify(json))
+    toast.open('已导出到剪贴板')
   }
 
   const onExportToFile = () => {
@@ -42,20 +44,31 @@ export default function Tools (props: ToolsProps) {
     document.body.removeChild(eleLink)
   }
 
+  // const onImportForFile = () => {
+  //   console.log('onImportForFile')
+  // } 
+
   return (
-    <div className={styles.toolsContainer}>
-      <div className={styles.toolsTitle}>调试工具</div>
-      <div className={styles.toolsContent}>
-        <div className={styles.toolsItem}>
-          <div className={styles.toolsItemTitle}>页面协议</div>
-          <div className={styles.toolsItemContent}>
-            <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onImport()}>导入</button>
-            <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExport()}>导出到剪切板</button>
-            <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExportToFile()}>导出到文件</button>
+    <>
+      <div className={styles.toolsContainer}>
+        <div className={styles.toolsTitle}>调试工具</div>
+        <div className={styles.toolsContent}>
+          <div className={styles.toolsItem}>
+            <div className={styles.toolsItemTitle}>页面协议</div>
+            <div className={styles.toolsItemContent}>
+              <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onImport()}>导入</button>
+              {/* <div onClick={() => onImportForFile()}>
+                <input type="file" accept="" style={{ display: 'none' }} />
+                <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} >选择文件</button>
+              </div> */}
+              <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExport()}>导出到剪切板</button>
+              <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExportToFile()}>导出到文件</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      {contextHolder}
+    </>
   )
 }
 
