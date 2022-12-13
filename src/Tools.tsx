@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, ChangeEvent } from "react";
 import classNames from 'classNames'
 import styles from './styles.less'
 import useToast from './components/Toast'
@@ -12,6 +12,7 @@ interface ToolsProps {
 
 export default function Tools (props: ToolsProps) {
   const [toast, contextHolder] = useToast()
+  const fileRef = useRef<HTMLInputElement>(null)
 
   const onImport = () => {
     const importData = window.prompt('将导出的页面数据复制到输入框');
@@ -44,9 +45,29 @@ export default function Tools (props: ToolsProps) {
     document.body.removeChild(eleLink)
   }
 
-  // const onImportForFile = () => {
-  //   console.log('onImportForFile')
-  // } 
+  const onImportForFile = () => {
+    fileRef.current?.click()
+  }
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+
+    if (files) {
+      const reader = new FileReader()
+      reader.readAsText(files[0])
+      reader.onload = (v) => {
+        const text = v.target?.result as string
+        if (!text) return
+
+        try {
+          const pageData = JSON.parse(text)
+          props.project.loadContent(pageData)
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+  }
 
   return (
     <>
@@ -57,10 +78,16 @@ export default function Tools (props: ToolsProps) {
             <div className={styles.toolsItemTitle}>页面协议</div>
             <div className={styles.toolsItemContent}>
               <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onImport()}>导入</button>
-              {/* <div onClick={() => onImportForFile()}>
-                <input type="file" accept="" style={{ display: 'none' }} />
-                <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} >选择文件</button>
-              </div> */}
+              <div>
+                <input
+                  style={{ display: 'none' }}
+                  ref={fileRef}
+                  type="file"
+                  accept="application/json"
+                  onChange={handleFileChange}
+                />
+                <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onImportForFile()} >选择文件</button>
+              </div>
               <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExport()}>导出到剪切板</button>
               <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExportToFile()}>导出到文件</button>
             </div>
