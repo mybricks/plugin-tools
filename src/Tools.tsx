@@ -88,7 +88,7 @@ export default function Tools (props: ToolsProps) {
                 />
                 <button
                   className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)}
-                  onClick={() => onImportForFile()}>从JSON文件中导入</button>
+                  onClick={() => onImportForFile()}>从文件中导入</button>
               </div>
               <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExport()}>导出到剪切板</button>
               <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExportToFile()}>导出到文件</button>
