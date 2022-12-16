@@ -1,6 +1,6 @@
 {
   "name": "@mybricks/plugin-tools",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "author": "mybricks",
   "license": "",
   "main": "lib/index.js",
