@@ -14,14 +14,11 @@ export default function Tools (props: ToolsProps) {
   const [toast, contextHolder] = useToast()
   const fileRef = useRef<HTMLInputElement>(null)
 
-  const onImport = () => {
-    const importData = window.prompt('将导出的页面数据复制到输入框');
-
-    if (!importData) return;
-    
+  const onImport = async () => {
     try {
-      const pageData = JSON.parse(importData)
-      props.project.loadContent(pageData)
+      const importData = await navigator.clipboard.readText()
+
+      loadContent(importData)
     } catch (err) {
       console.error(err);
     }
@@ -57,15 +54,20 @@ export default function Tools (props: ToolsProps) {
       reader.readAsText(files[0])
       reader.onload = (v) => {
         const text = v.target?.result as string
-        if (!text) return
-
-        try {
-          const pageData = JSON.parse(text)
-          props.project.loadContent(pageData)
-        } catch (err) {
-          console.error(err);
-        }
+        loadContent(text)
       }
+    }
+  }
+
+  const loadContent = (importData: string) => {
+    if (!importData) return;
+
+    try {
+      const pageData = JSON.parse(importData)
+      props.project.loadContent(pageData)
+      toast.open('导入完成')
+    } catch (err) {
+      console.error(err);
     }
   }
 
