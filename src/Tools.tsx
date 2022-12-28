@@ -7,12 +7,15 @@ interface ToolsProps {
   project: {
     loadContent: (val: any) => void
     dump: () => void
+    getGeoJSON: () => any
   }
 }
 
 export default function Tools (props: ToolsProps) {
   const [toast, contextHolder] = useToast()
   const fileRef = useRef<HTMLInputElement>(null)
+
+  // console.log(props.project.getGeoJSON())
 
   const onImport = async () => {
     try {
@@ -71,6 +74,11 @@ export default function Tools (props: ToolsProps) {
     }
   }
 
+  // const geoJSONOnChange = (e) => {
+  //   const data = e.target.value
+  //   console.log(data)
+  // }
+
   return (
     <>
       <div className={styles.toolsContainer}>
@@ -80,6 +88,7 @@ export default function Tools (props: ToolsProps) {
             <div className={styles.toolsItemTitle}>页面协议</div>
             <div className={styles.toolsItemContent}>
               <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onImport()}>从剪切板中导入</button>
+              <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExport()}>导出到剪切板</button>
               <div>
                 <input
                   style={{ display: 'none' }}
@@ -92,8 +101,11 @@ export default function Tools (props: ToolsProps) {
                   className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)}
                   onClick={() => onImportForFile()}>从文件中导入</button>
               </div>
-              <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExport()}>导出到剪切板</button>
+              
               <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExportToFile()}>导出到文件</button>
+              {/* <div>
+                <textarea style={{ width: '100%' }} defaultValue={JSON.stringify(props.project.getGeoJSON(), null, 2)} onChange={geoJSONOnChange}></textarea>
+              </div> */}
             </div>
           </div>
         </div>
