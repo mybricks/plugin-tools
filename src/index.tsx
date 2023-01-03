@@ -1,5 +1,6 @@
 import React from "react";
 import Tools from './Tools'
+// @ts-ignore
 import pkg from '../package.json'
 
 console.log(`%c ${pkg.name} %c@${pkg.version}`, `color:#FFF;background:#fa6400`, ``, ``);
