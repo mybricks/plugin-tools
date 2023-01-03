@@ -23,7 +23,10 @@ export default function Tools (props: ToolsProps) {
 
       loadContent(importData)
     } catch (err) {
-      console.error(err);
+      console.warn('剪切板读取失败，尝试切换为手动粘贴导入...', err)
+      const importData = window.prompt('将导出的页面数据复制到输入框')
+
+      loadContent(importData)
     }
   }
 
@@ -62,7 +65,7 @@ export default function Tools (props: ToolsProps) {
     }
   }
 
-  const loadContent = (importData: string) => {
+  const loadContent = (importData: string | null) => {
     if (!importData) return;
 
     try {
