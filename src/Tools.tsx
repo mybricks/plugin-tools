@@ -73,7 +73,7 @@ export default function Tools (props: ToolsProps) {
       props.project.loadContent(pageData)
       toast.open('导入完成')
     } catch (err) {
-      console.error(err);
+      console.error('非法数据格式, 请检查', err);
     }
   }
 
