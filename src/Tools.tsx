@@ -7,11 +7,12 @@ interface ToolsProps {
   project: {
     loadContent: (val: any) => void
     dump: () => void
+    toJSON: () => void
     getGeoJSON: () => any
   }
 }
 
-export default function Tools (props: ToolsProps) {
+export default function Tools(props: ToolsProps) {
   const [toast, contextHolder] = useToast()
   const fileRef = useRef<HTMLInputElement>(null)
 
@@ -30,6 +31,26 @@ export default function Tools (props: ToolsProps) {
     }
   }
 
+
+  const onExportToJson = () => {
+    const json = props.project.toJSON()
+    copyText(JSON.stringify(json))
+    toast.open('已导出到剪贴板')
+  }
+
+  const onExportToFileToJson = () => {
+    const json = props.project.toJSON()
+    const eleLink = document.createElement('a')
+    eleLink.download = `mybricks_tojson_${getDateTime()}.json`
+    eleLink.style.display = 'none'
+    const blob = new Blob([JSON.stringify(json)])
+    eleLink.href = URL.createObjectURL(blob)
+    document.body.appendChild(eleLink)
+    eleLink.click()
+    document.body.removeChild(eleLink)
+  }
+
+
   const onExport = () => {
     const json = props.project.dump()
     copyText(JSON.stringify(json))
@@ -39,7 +60,7 @@ export default function Tools (props: ToolsProps) {
   const onExportToFile = () => {
     const json = props.project.dump()
     const eleLink = document.createElement('a')
-    eleLink.download = `mybricks_${getDateTime()}.json`
+    eleLink.download = `mybricks_dump_${getDateTime()}.json`
     eleLink.style.display = 'none'
     const blob = new Blob([JSON.stringify(json)])
     eleLink.href = URL.createObjectURL(blob)
@@ -104,13 +125,22 @@ export default function Tools (props: ToolsProps) {
                   className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)}
                   onClick={() => onImportForFile()}>从文件中导入</button>
               </div>
-              
+
               <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExportToFile()}>导出到文件</button>
               {/* <div>
                 <textarea style={{ width: '100%' }} defaultValue={JSON.stringify(props.project.getGeoJSON(), null, 2)} onChange={geoJSONOnChange}></textarea>
               </div> */}
             </div>
           </div>
+
+          <div className={styles.toolsItem}>
+            <div className={styles.toolsItemTitle}>页面模型</div>
+            <div className={styles.toolsItemContent}>
+              <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExportToJson()}>导出到剪切板</button>
+              <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExportToFileToJson()}>导出到文件</button>
+            </div>
+          </div>
+
         </div>
       </div>
       {contextHolder}
@@ -118,16 +148,16 @@ export default function Tools (props: ToolsProps) {
   )
 }
 
-function getDateTime () {
+function getDateTime() {
   const date = new Date()
   const Y = date.getFullYear() + '-'
-  const M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-'
+  const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
   const D = date.getDate() + ' '
   const h = date.getHours() + ':'
   const m = date.getMinutes() + ':'
   const s = date.getSeconds()
 
-  return Y+M+D+h+m+s
+  return Y + M + D + h + m + s
 }
 
 
