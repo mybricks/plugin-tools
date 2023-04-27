@@ -24,7 +24,9 @@ export default function Tools(props: ToolsProps) {
 
       loadContent(importData)
     } catch (err) {
+      toast.error(`剪切板读取失败，尝试切换为手动粘贴导入... ${err}`)
       console.warn('剪切板读取失败，尝试切换为手动粘贴导入...', err)
+      
       const importData = window.prompt('将导出的页面数据复制到输入框')
 
       loadContent(importData)
@@ -35,7 +37,7 @@ export default function Tools(props: ToolsProps) {
   const onExportToJson = () => {
     const json = props.project.toJSON()
     copyText(JSON.stringify(json))
-    toast.open('已导出到剪贴板')
+    toast.success('已导出到剪贴板')
   }
 
   const onExportToFileToJson = () => {
@@ -54,7 +56,7 @@ export default function Tools(props: ToolsProps) {
   const onExport = () => {
     const json = props.project.dump()
     copyText(JSON.stringify(json))
-    toast.open('已导出到剪贴板')
+    toast.success('已导出到剪贴板')
   }
 
   const onExportToFile = () => {
@@ -87,13 +89,17 @@ export default function Tools(props: ToolsProps) {
   }
 
   const loadContent = (importData: string | null) => {
-    if (!importData) return;
+    if (!importData) {
+      toast.error('导入失败，请检查')
+      return
+    }
 
     try {
       const pageData = JSON.parse(importData)
       props.project.loadContent(pageData)
-      toast.open('导入完成')
+      toast.success('导入完成')
     } catch (err) {
+      toast.error(`导入失败，请检查 ${err}`)
       console.error('非法数据格式, 请检查', err);
     }
   }
@@ -109,7 +115,7 @@ export default function Tools(props: ToolsProps) {
         <div className={styles.toolsTitle}>调试工具</div>
         <div className={styles.toolsContent}>
           <div className={styles.toolsItem}>
-            <div className={styles.toolsItemTitle}>页面协议</div>
+            <div className={styles.toolsItemTitle}>页面协议（Dump）</div>
             <div className={styles.toolsItemContent}>
               <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onImport()}>从剪切板中导入</button>
               <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExport()}>导出到剪切板</button>
@@ -134,7 +140,7 @@ export default function Tools(props: ToolsProps) {
           </div>
 
           <div className={styles.toolsItem}>
-            <div className={styles.toolsItemTitle}>页面模型</div>
+            <div className={styles.toolsItemTitle}>页面产物（ToJSON）</div>
             <div className={styles.toolsItemContent}>
               <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExportToJson()}>导出到剪切板</button>
               <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExportToFileToJson()}>导出到文件</button>
