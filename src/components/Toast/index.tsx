@@ -28,24 +28,25 @@ const Toast = forwardRef((props, ref) => {
   })
 
   const open = ({ type, content }: OpenProps) => {
-    toastList.push({
+    const toast = {
       id: getUuid(),
       type,
       content
-    })
+    }
 
-    setToastList([...toastList])
+    setToastList((prevToasts) => [...prevToasts, toast])
   }
 
   const close = (id: string) => {
-    const newList = toastList.filter(item => item.id !== id)
-    setToastList(newList)
+    setToastList((prevToasts) => {
+      return prevToasts.filter(item => item.id !== id)
+    })
   }
 
   return createPortal((
     <div className={style.toast}>
       {
-        toastList.reverse().map(item => {
+        toastList.map(item => {
           return <ToastItem {...item} onClose={close} key={item.id} />
         })
       }
