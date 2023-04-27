@@ -26,7 +26,7 @@ export default function Tools(props: ToolsProps) {
     } catch (err) {
       toast.error(`剪切板读取失败，尝试切换为手动粘贴导入... ${err}`)
       console.warn('剪切板读取失败，尝试切换为手动粘贴导入...', err)
-      
+
       const importData = window.prompt('将导出的页面数据复制到输入框')
 
       loadContent(importData)
@@ -42,14 +42,8 @@ export default function Tools(props: ToolsProps) {
 
   const onExportToFileToJson = () => {
     const json = props.project.toJSON()
-    const eleLink = document.createElement('a')
-    eleLink.download = `mybricks_tojson_${getDateTime()}.json`
-    eleLink.style.display = 'none'
-    const blob = new Blob([JSON.stringify(json)])
-    eleLink.href = URL.createObjectURL(blob)
-    document.body.appendChild(eleLink)
-    eleLink.click()
-    document.body.removeChild(eleLink)
+
+    downloadToFile({ name: `mybricks_tojson_${getDateTime()}.json`, content: json })
   }
 
 
@@ -61,14 +55,8 @@ export default function Tools(props: ToolsProps) {
 
   const onExportToFile = () => {
     const json = props.project.dump()
-    const eleLink = document.createElement('a')
-    eleLink.download = `mybricks_dump_${getDateTime()}.json`
-    eleLink.style.display = 'none'
-    const blob = new Blob([JSON.stringify(json)])
-    eleLink.href = URL.createObjectURL(blob)
-    document.body.appendChild(eleLink)
-    eleLink.click()
-    document.body.removeChild(eleLink)
+
+    downloadToFile({ name: `mybricks_dump_${getDateTime()}.json`, content: json })
   }
 
   const onImportForFile = () => {
@@ -175,4 +163,17 @@ function copyText(txt: string): boolean {
   document.execCommand('copy')
   document.body.removeChild(input)
   return true;
+}
+
+function downloadToFile ({ content, name }: { content: any, name: string }) {
+  const eleLink = document.createElement('a')
+  eleLink.download = name
+  eleLink.style.display = 'none'
+
+  const blob = new Blob([JSON.stringify(content)])
+
+  eleLink.href = URL.createObjectURL(blob)
+  document.body.appendChild(eleLink)
+  eleLink.click()
+  document.body.removeChild(eleLink)
 }
