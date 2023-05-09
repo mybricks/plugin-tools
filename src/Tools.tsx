@@ -24,12 +24,14 @@ export default function Tools(props: ToolsProps) {
 
       loadContent(importData)
     } catch (err) {
-      toast.error(`剪切板读取失败，尝试切换为手动粘贴导入... ${err}`)
-      console.warn('剪切板读取失败，尝试切换为手动粘贴导入...', err)
+      // toast.error(`剪切板读取失败，尝试切换为手动粘贴导入... ${err}`)
+      console.warn(err, '剪切板读取失败，尝试切换为手动导入...')
 
       const importData = window.prompt('将导出的页面数据复制到输入框')
 
-      loadContent(importData)
+      if (importData) {
+        loadContent(importData)
+      }
     }
   }
 
