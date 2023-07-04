@@ -80,16 +80,24 @@ export default function Tools(props: ToolsProps) {
 
   const loadContent = (importData: string | null) => {
     if (!importData) {
-      toast.error('导入失败，请检查')
+      toast.error('导入失败或数据为空，请检查')
       return
     }
 
+
     try {
       const pageData = JSON.parse(importData)
+
+      if (!pageData.content && (pageData.scenes || pageData.global)) {
+        console.error('请勿导入页面产物（ToJSON）数据，应导入页面协议（Dump）数据', pageData);
+        toast.error(`请勿导入页面产物（ToJSON）数据，应导入页面协议（Dump）数据`)
+        return
+      }
+      
       props.project.loadContent(pageData)
       toast.success('导入完成')
     } catch (err) {
-      toast.error(`导入失败，请检查 ${err}`)
+      toast.error(`导入失败，非法数据格式，请检查 ${err}`)
       console.error('非法数据格式, 请检查', err);
     }
   }
