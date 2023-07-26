@@ -1,7 +1,8 @@
-import React, { useRef, ChangeEvent } from "react";
+import React, { useRef, ChangeEvent, useCallback, useState } from "react";
 import classNames from 'classNames'
 import styles from './styles.less'
 import useToast from './components/Toast'
+import MSwitch from './components/Switch'
 
 interface ToolsProps {
   project: {
@@ -15,6 +16,7 @@ interface ToolsProps {
 export default function Tools(props: ToolsProps) {
   const [toast, contextHolder] = useToast()
   const fileRef = useRef<HTMLInputElement>(null)
+  const [toJsonVisible, setToJsonVisible] = useState(false)
 
   // console.log(props.project.getGeoJSON())
 
@@ -107,6 +109,10 @@ export default function Tools(props: ToolsProps) {
   //   console.log(data)
   // }
 
+  const onChange = useCallback((val) => {
+    setToJsonVisible(val)
+  }, [])
+
   return (
     <>
       <div className={styles.toolsContainer}>
@@ -136,13 +142,25 @@ export default function Tools(props: ToolsProps) {
               </div> */}
             </div>
           </div>
-
+          <div>
+            
+          </div>
           <div className={styles.toolsItem}>
-            <div className={styles.toolsItemTitle}>页面产物（ToJSON）</div>
-            <div className={styles.toolsItemContent}>
-              <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExportToJson()}>导出到剪切板</button>
-              <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExportToFileToJson()}>导出到文件</button>
+            <div className={styles.toolsItemTitle}>
+              <div>页面产物（ToJSON）</div>
+              <div>
+                <MSwitch onChange={onChange} />
+              </div>
             </div>
+            {
+              toJsonVisible && (
+                <div className={styles.toolsItemContent}>
+                  <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExportToJson()}>导出到剪切板</button>
+                  <button className={classNames(styles.toolsIBtn, styles.toolsIBtnBlock)} onClick={() => onExportToFileToJson()}>导出到文件</button>
+                </div>
+              )
+            }
+            
           </div>
 
         </div>
